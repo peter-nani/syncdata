@@ -81,4 +81,9 @@ sudo apt install -y rsync openssh-client
 ## Passwordless SSH is required.
 
 ssh-keygen -t ed25519
-ssh-copy-id hr306@192.168.1.146
+ssh-copy-id admin@192.168.1.148
+
+# Verify:
+
+ssh -o BatchMode=yes hr306@192.168.1.146 echo ok
+
