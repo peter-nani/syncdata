@@ -130,3 +130,39 @@ systemctl status persistent-rsync
 ```
 journalctl -u persistent-rsync -f
 ```
+
+## Log Rotation
+
+To prevent unbounded log growth.
+
+```sudo nano /etc/logrotate.d/persistent-rsync```
+```
+/home/admin_user/persistent_rsync.log {
+    daily
+    rotate 14
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+}
+```
+## Test configuration:
+```sudo logrotate -d /etc/logrotate.d/persistent-rsync```
+
+## Common Commands
+
+# Restart service:
+
+```sudo systemctl restart persistent-rsync```
+
+
+# Stop service:
+
+```sudo systemctl stop persistent-rsync```
+
+
+# Disable auto-start:
+
+```sudo systemctl disable persistent-rsync```
+
