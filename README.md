@@ -23,12 +23,6 @@ A **production-grade, self-healing Python service** that continuously syncs scre
 
 ---
 
-# syncdata
-
-Reliable data synchronization from WSL to a remote Linux (VPN) server.
-
----
-
 ## Overview
 
 **Persistent Rsync Screenshot Sync Service** is a production-grade Python daemon that continuously syncs screenshots from a Windows machine (via WSL) to a remote Linux server using `rsync` over SSH.
@@ -39,24 +33,6 @@ The service:
 - Runs continuously
 - Starts automatically on system boot
 - Maintains bounded log size
-
----
-
-
----
-
-## Features
-
-- Runs continuously as a daemon
-- Automatically detects monthly folders (YYYY-MM)
-- Waits for network and SSH availability
-- Uses rsync for efficient incremental transfers
-- Deletes source files only after successful transfer
-- Never deletes the monthly root folder
-- Handles missing or empty folders safely
-- Auto-starts on boot using systemd
-- Log rotation using logrotate
-- Suitable for production environments
 
 ---
 
@@ -74,26 +50,29 @@ Install dependencies:
 ```bash
 sudo apt update
 sudo apt install -y rsync openssh-client
-
+```
 
 ### SSH Setup (Mandatory)
 
-## Passwordless SSH is required.
+**Passwordless SSH is required.**
 
+```bash
 ssh-keygen -t ed25519
 ssh-copy-id admin@192.168.1.148
 
 # Verify:
-
 ssh -o BatchMode=yes admin@192.168.1.148 echo ok
-
 ```
 
 ## Running as a systemd Service (Recommended)
-```
-#Create the service file
-sudo nano /etc/systemd/system/persistent-rsync.service
 
+Create the service file:
+
+```bash
+sudo nano /etc/systemd/system/persistent-rsync.service
+```
+
+```ini
 [Unit]
 Description=Persistent Rsync Screenshot Sync Service
 After=network-online.target
@@ -112,31 +91,36 @@ WorkingDirectory=/home/admin_user
 [Install]
 WantedBy=multi-user.target
 ```
+
 ## Enable and start
-``` sudo systemctl daemon-reload ```
 
-```sudo systemctl enable persistent-rsync```
-
-```sudo systemctl start persistent-rsync```
-
-## check live status
-
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable persistent-rsync
+sudo systemctl start persistent-rsync
 ```
-systemctl status persistent-rsync
 
+## Check live status
+
+```bash
+systemctl status persistent-rsync
 ```
 
 ## View service logs
-```
+
+```bash
 journalctl -u persistent-rsync -f
 ```
 
 ## Log Rotation
 
-To prevent unbounded log growth.
+To prevent unbounded log growth:
 
-```sudo nano /etc/logrotate.d/persistent-rsync```
+```bash
+sudo nano /etc/logrotate.d/persistent-rsync
 ```
+
+```bash
 /home/admin_user/persistent_rsync.log {
     daily
     rotate 14
@@ -147,22 +131,37 @@ To prevent unbounded log growth.
     copytruncate
 }
 ```
+
 ## Test configuration:
-```sudo logrotate -d /etc/logrotate.d/persistent-rsync```
+
+```bash
+sudo logrotate -d /etc/logrotate.d/persistent-rsync
+```
 
 ## Common Commands
 
-# Restart service:
+### Restart service:
 
-```sudo systemctl restart persistent-rsync```
+```bash
+sudo systemctl restart persistent-rsync
+```
 
+### Stop service:
 
-# Stop service:
+```bash
+sudo systemctl stop persistent-rsync
+```
 
-```sudo systemctl stop persistent-rsync```
+### Disable auto-start:
 
+```bash
+sudo systemctl disable persistent-rsync
+```
 
-# Disable auto-start:
+### Future Improvements
 
-```sudo systemctl disable persistent-rsync```
-
+- Skip files newer than a configurable threshold
+- Organize destination by day
+- Failure notifications (mail / Telegram)
+- Resource limits via systemd
+- Restrict SSH key to rsync-only usage
