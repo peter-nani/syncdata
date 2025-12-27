@@ -42,15 +42,43 @@ The service:
 
 ---
 
-## Architecture
 
-Windows (ShareX Screenshots)
-|
-v
-WSL Ubuntu (Python Service)
-|
-v
-rsync over SSH
-|
-v
-Remote Linux Server (Archive Storage)
+---
+
+## Features
+
+- Runs continuously as a daemon
+- Automatically detects monthly folders (YYYY-MM)
+- Waits for network and SSH availability
+- Uses rsync for efficient incremental transfers
+- Deletes source files only after successful transfer
+- Never deletes the monthly root folder
+- Handles missing or empty folders safely
+- Auto-starts on boot using systemd
+- Log rotation using logrotate
+- Suitable for production environments
+
+---
+
+## Requirements
+
+### Source Machine (WSL / Linux)
+
+- Python 3.8 or higher
+- rsync
+- ssh
+- systemd
+
+Install dependencies:
+
+```bash
+sudo apt update
+sudo apt install -y rsync openssh-client
+
+
+### SSH Setup (Mandatory)
+
+## Passwordless SSH is required.
+
+ssh-keygen -t ed25519
+ssh-copy-id hr306@192.168.1.146
