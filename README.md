@@ -85,5 +85,7 @@ ssh-copy-id admin@192.168.1.148
 
 # Verify:
 
-ssh -o BatchMode=yes hr306@192.168.1.146 echo ok
+ssh -o BatchMode=yes admin@192.168.1.148 echo ok
+
+```
 
