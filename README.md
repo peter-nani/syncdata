@@ -165,3 +165,8 @@ sudo systemctl disable persistent-rsync
 - Failure notifications (mail / Telegram)
 - Resource limits via systemd
 - Restrict SSH key to rsync-only usage
+
+
+Author: Prasanna Kumar Vundaty
+Purpose: Screenshot Archival and Cleanup
+Stability: Production
