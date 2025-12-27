@@ -113,7 +113,7 @@ WorkingDirectory=/home/admin_user
 WantedBy=multi-user.target
 ```
 ## Enable and start
-sudo systemctl daemon-reload
+``` sudo systemctl daemon-reload ```
 
 sudo systemctl enable persistent-rsync
 
