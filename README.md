@@ -114,5 +114,14 @@ WantedBy=multi-user.target
 ```
 ## Enable and start
 sudo systemctl daemon-reload
+
 sudo systemctl enable persistent-rsync
+
 sudo systemctl start persistent-rsync
+
+## check live status
+
+```
+systemctl status persistent-rsync
+
+```
