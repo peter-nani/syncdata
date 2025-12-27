@@ -25,3 +25,51 @@ A **production-grade, self-healing Python service** that continuously syncs scre
 
 ## 🧱 Architecture Overview
 
+Windows (ShareX Screenshots)
+↓
+WSL Ubuntu (Python Service)
+↓
+rsync over SSH
+↓
+Remote Linux Server (Archive Storage)
+
+
+---
+
+## 📂 Directory Structure
+
+/home/admin_user/
+├── cronjobs/
+│ └── sync_forever.py
+├── persistent_rsync.log
+
+
+---
+
+## ⚙️ Requirements
+
+### Source Machine (WSL / Linux)
+
+- Python **3.8+**
+- `rsync`
+- `ssh`
+- `systemd` (for service mode)
+
+```bash
+sudo apt update
+sudo apt install -y rsync openssh-client
+
+Destination Server
+
+SSH server running
+
+Target directory exists
+
+SSH key-based login enabled
+
+🔐 SSH Setup (MANDATORY)
+
+Passwordless SSH is required.
+
+ssh-keygen -t ed25519
+ssh-copy-id hr306@192.168.1.146
