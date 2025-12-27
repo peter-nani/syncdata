@@ -89,3 +89,30 @@ ssh -o BatchMode=yes admin@192.168.1.148 echo ok
 
 ```
 
+## Running as a systemd Service (Recommended)
+```
+#Create the service file
+sudo nano /etc/systemd/system/persistent-rsync.service
+
+[Unit]
+Description=Persistent Rsync Screenshot Sync Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=admin_user
+Group=admin_user
+ExecStart=/usr/bin/python3 /home/admin_user/cronjobs/sync_forever.py
+Restart=always
+RestartSec=10
+Environment=PYTHONUNBUFFERED=1
+WorkingDirectory=/home/admin_user
+
+[Install]
+WantedBy=multi-user.target
+```
+## Enable and start
+sudo systemctl daemon-reload
+sudo systemctl enable persistent-rsync
+sudo systemctl start persistent-rsync
